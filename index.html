@@ -1,0 +1,894 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>دایی جواد</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: Tahoma, Arial, sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      touch-action: none;
+      user-select: none;
+      color: #222;
+    }
+
+    .screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    #entry-screen {
+      background: 
+        linear-gradient(rgba(255, 248, 230, 0.9), rgba(255, 248, 230, 0.9)),
+        url('https://i.postimg.cc/x8hC14Kd/file-00000000755c7208bb3debc5534b6779.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .main-title {
+      position: absolute;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 30px;
+      font-weight: bold;
+      color: #8B0000;
+      text-shadow: 0 2px 4px rgba(255,215,0,0.5);
+    }
+
+    .right-col, .left-col {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+    .right-col { right: 30px; }
+    .left-col { left: 30px; }
+
+    .menu-item {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.2s;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+      position: relative;
+    }
+    .menu-item:active { transform: scale(0.93); }
+
+    .icon { font-size: 24px; line-height: 1; }
+    .menu-label {
+      position: absolute;
+      bottom: -28px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 12px;
+      font-weight: bold;
+      color: white;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+      white-space: nowrap;
+    }
+
+    #item-suggestions { background: #4ECDC4; }
+    #item-about { background: #06D6A0; }
+    #item-invite { background: #FFD166; color: #222; }
+    #item-guide { background: #118AB2; }
+    #item-special1 { background: #EF476F; }
+    #item-special2 { background: #FF6B6B; }
+
+    #start-main {
+      position: absolute;
+      bottom: 110px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 14px 30px;
+      font-size: 20px;
+      font-weight: bold;
+      background: #FFD700;
+      color: #222;
+      border: 3px solid #B8860B;
+      border-radius: 14px;
+      cursor: pointer;
+      box-shadow: 0 5px 12px rgba(0,0,0,0.25);
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+      font-size: 15px;
+      font-weight: bold;
+      color: #222;
+    }
+    .footer-line {
+      display: inline-block;
+      width: 70%;
+      max-width: 280px;
+      border-top: 2px solid #B8860B;
+      margin-bottom: 6px;
+    }
+
+    #login-screen {
+      background: linear-gradient(135deg, #b8860b, #ffd700);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    #login-screen h2 {
+      margin-bottom: 20px;
+      color: #8B0000;
+      font-size: 24px;
+    }
+    input {
+      padding: 14px;
+      font-size: 20px;
+      border-radius: 12px;
+      border: 2px solid #ffd700;
+      text-align: center;
+      width: 85%;
+      max-width: 300px;
+      margin: 12px 0;
+      background: rgba(255,255,255,0.85);
+    }
+    .action-btn {
+      margin: 15px 0;
+      padding: 12px 28px;
+      font-size: 20px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      background: #ffd700;
+      color: #222;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+      border: 2px solid #b8860b;
+    }
+
+    .back-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: #6c757d;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    #game-screen {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #ui-bar {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    #dai-help {
+      padding: 8px 14px;
+      background: #FFD700;
+      border: 3px solid #B8860B;
+      border-radius: 10px;
+      color: #222;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+      min-width: 90px;
+      text-align: center;
+    }
+
+    #coins { 
+      display: flex; 
+      align-items: center; 
+      gap: 6px; 
+      background: rgba(255,255,255,0.7); 
+      padding: 6px 12px; 
+      border-radius: 20px; 
+      font-size: 16px; 
+    }
+
+    #logout-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: #ff6b6b;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #letters-container {
+      position: relative;
+      width: 260px;
+      height: 260px;
+      margin: 20px 0;
+    }
+
+    .letter {
+      position: absolute;
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 22px;
+      font-weight: bold;
+      transition: 0.25s;
+    }
+
+    #lines { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+
+    #word-boxes {
+      display: flex;
+      gap: 10px;
+      margin: 15px 0;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .char-box {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 18px;
+    }
+
+    #selected-word {
+      font-size: 26px;
+      margin: 15px 0;
+      letter-spacing: 4px;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+
+    #stage-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 15px 0;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    #hint-panel {
+      position: absolute;
+      top: 70px;
+      left: 16px;
+      background: white;
+      border-radius: 12px;
+      padding: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 190px;
+    }
+    #hint-panel button {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #hint-letter { background: #FFD700; color: #222; border: 1px solid #B8860B; }
+    #hint-skip { background: #ff6b6b; color: white; }
+
+    #thank-you {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+      font-size: 28px;
+      color: white;
+      font-weight: bold;
+      text-align: center;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- صفحه ورود -->
+<div id="entry-screen" class="screen">
+  <div class="main-title">بازی دایی جواد</div>
+
+  <div class="right-col">
+    <div class="menu-item" id="item-suggestions">
+      <div class="icon">💡</div>
+      <div class="menu-label">پیشنهادات</div>
+    </div>
+    <div class="menu-item" id="item-about">
+      <div class="icon">ℹ️</div>
+      <div class="menu-label">درباره</div>
+    </div>
+    <div class="menu-item" id="item-invite">
+      <div class="icon">👫</div>
+      <div class="menu-label">دعوت</div>
+    </div>
+  </div>
+
+  <div class="left-col">
+    <div class="menu-item" id="item-guide">
+      <div class="icon">📖</div>
+      <div class="menu-label">راهنما</div>
+    </div>
+    <div class="menu-item" id="item-special1">
+      <div class="icon">🎁</div>
+      <div class="menu-label">ویژه</div>
+    </div>
+    <div class="menu-item" id="item-special2">
+      <div class="icon">⭐</div>
+      <div class="menu-label">ستاره</div>
+    </div>
+  </div>
+
+  <button id="start-main">🎮 شروع بازی</button>
+
+  <div class="footer">
+    <div class="footer-line"></div>
+    تقدیم به ساحت حضرت فاطمه (س)
+  </div>
+
+  <!-- نام کانال سازنده -->
+  <div style="
+    position: absolute;
+    bottom: 60px;
+    left: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #8B0000;
+    text-shadow: 0 1px 2px rgba(255,215,0,0.5);
+    background: rgba(255, 248, 230, 0.8);
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-family: Tahoma, Arial, sans-serif;
+  ">
+ کانال: @Modafe_islam 
+  </div>
+</div>
+
+<!-- صفحه ثبت‌نام -->
+<div id="login-screen" class="screen" style="display:none;">
+  <button class="back-btn" id="back-to-entry">← بازگشت</button>
+  <h2>اسمت چیه دوست خوبم؟</h2>
+  <input id="player" placeholder="نام خود را وارد کنید" maxlength="15">
+  <button class="action-btn" id="start-game">شروع بازی</button>
+</div>
+
+<!-- صفحه بازی -->
+<div id="game-screen" class="screen" style="display:none;">
+  <div id="ui-bar">
+    <button id="dai-help">دایی کمک</button>
+    <div id="coins">🪙 <span id="coin-count">۰</span></div>
+  </div>
+  <button id="logout-btn">خروج</button>
+
+  <div id="word-boxes"></div>
+  <div id="letters-container"></div>
+  <svg id="lines"></svg>
+  <div id="selected-word">...</div>
+  <div id="stage-title">مرحله ۱</div>
+  <button class="action-btn" id="check-btn">بررسی</button>
+
+  <div id="hint-panel">
+    <button id="hint-letter">💡 یک حرف (۵ سکه)</button>
+    <button id="hint-skip">🚪 رد مرحله (۱۵ سکه)</button>
+  </div>
+</div>
+
+<!-- پنل تشکر -->
+<div id="thank-you"></div>
+
+<script>
+// ========== 150 مرحله ==========
+const stages = [
+  {letters:["خ","ا","ن","ه","و"], words:["خانه"]},
+  {letters:["س","ل","ا","م","ر"], words:["سلام"]},
+  {letters:["ب","ا","ر","ا","ن","و"], words:["باران"]},
+  {letters:["ش","ا","د","ب","و"], words:["شاد"]},
+  {letters:["ف","ر","ا","ه","ن","س"], words:["راه"]},
+  {letters:["گ","ل","س","ت","ا","م"], words:["گل"]},
+  {letters:["م","ر","ی","م","ا","ن"], words:["مریم"]},
+  {letters:["ن","و","ر","ا","ن","ش"], words:["نوار"]},
+  {letters:["د","ر","س","ت","ا","و"], words:["درس"]},
+  {letters:["ب","ا","د","ا","ر","و"], words:["باد"]},
+  {letters:["س","ی","ن","ا","م","ر"], words:["سینا"]},
+  {letters:["ک","ا","ل","ا","م","ر"], words:["کلام"]},
+  {letters:["ت","ا","ب","س","ت","ر"], words:["تاب"]},
+  {letters:["ه","و","ا","ش","ا","ی"], words:["هوا"]},
+  {letters:["ر","و","ب","ا","ت","ن"], words:["ربات"]},
+  {letters:["م","ه","ر","ا","ن","و"], words:["مهران"]},
+  {letters:["ن","ا","م","د","ر","و"], words:["نام"]},
+  {letters:["س","ا","ر","ا","ه","م"], words:["سارا"]},
+  {letters:["ش","ه","ر","ا","ن","و"], words:["شهر"]},
+  {letters:["ف","ا","ر","ی","د","و"], words:["فرید"]},
+  {letters:["ک","ی","م","ی","ا","ن"], words:["کیمیا"]},
+  {letters:["ن","ی","ل","و","ف","ر"], words:["نیلوفر"]},
+  {letters:["م","ا","ه","ی","ن","و"], words:["ماهی"]},
+  {letters:["س","ا","م","ی","ر","ن"], words:["سام"]},
+  {letters:["ه","و","ش","ا","ن","ر"], words:["هوش"]},
+  {letters:["د","ا","و","و","د","ن"], words:["داود"]},
+  {letters:["ش","ا","ه","ر","و","ن"], words:["شهر"]},
+  {letters:["م","ن","ا","ر","ک","و"], words:["منار"]},
+  {letters:["ر","و","ز","ا","ن","و"], words:["روز"]},
+  {letters:["ف","ا","ر","س","ا","ی"], words:["فارس"]},
+  {letters:["ک","ا","ر","م","ی","ن"], words:["کار"]},
+  {letters:["س","ا","ل","ی","م","ر"], words:["سال"]},
+  {letters:["ن","ا","ز","ل","ی","و"], words:["ناز"]},
+  {letters:["د","ا","ر","ی","ا","ن"], words:["دارا"]},
+  {letters:["ش","ا","د","ر","ا","و"], words:["شاد"]},
+  {letters:["م","ه","ا","ر","ا","ن"], words:["ماها"]},
+  {letters:["ن","ی","ک","ا","م","ر"], words:["نیک"]},
+  {letters:["ف","ر","ز","ا","ن","و"], words:["فرزان"]},
+  {letters:["گ","ا","ر","د","ا","و"], words:["گارد"]},
+  {letters:["س","ا","م","ا","ن","ر"], words:["سامان"]},
+  {letters:["ه","ر","ا","م","ی","ن"], words:["هرمز"]},
+  {letters:["م","ا","ه","ر","ا","ن"], words:["ماهر"]},
+  {letters:["ن","ا","ب","ا","ر","و"], words:["ناب"]},
+  {letters:["د","و","س","ت","ا","ن"], words:["دوست"]},
+  {letters:["ش","ا","م","ا","ن","ر"], words:["شام"]},
+  {letters:["ک","ا","م","ر","ا","ن"], words:["کامران"]},
+  {letters:["ف","ا","ر","ه","ا","ن"], words:["فرهان"]},
+  {letters:["م","ی","ر","ا","د","ن"], words:["میرا"]},
+  {letters:["ر","و","ش","ا","ن","ر"], words:["شرور"]},
+  {letters:["ش","ا","د","ا","ر","ن"], words:["شاد"]},
+  {letters:["د","ا","ن","ا","ش","و"], words:["دانش"]},
+  {letters:["ر","و","ش","ا","ن","و"], words:["روشن"]},
+  {letters:["ب","ن","د","ر","و","ا"], words:["بندر"]},
+  {letters:["پ","ا","ر","س","ا"], words:["پارس"]},
+  {letters:["ش","ی","ر","ا","ز","و"], words:["شیراز"]},
+  {letters:["ا","ص","ف","ه","ا","ن"], words:["اصفهان"]},
+  {letters:["ت","ب","ر","ی","ز","و"], words:["تبریز"]},
+  {letters:["م","ش","ه","د","و","ا"], words:["مشهد"]},
+  {letters:["ی","ز","د","و","ا"], words:["یزد"]},
+  {letters:["ک","ر","م","ا","ن","و"], words:["کرمان"]},
+  {letters:["ا","ه","و","ا","ز","و"], words:["اهواز"]},
+  {letters:["ر","ش","ت","و","ا"], words:["رشت"]},
+  {letters:["ق","ش","م","و","ا"], words:["قشم"]},
+  {letters:["ن","ی","ش","ا","ب","و","ر"], words:["نیشابور"]},
+  {letters:["س","ب","ز","و","ا","ن"], words:["سبزان"]},
+  {letters:["س","پ","ن","د","و","ا"], words:["سپند"]},
+  {letters:["ا","ر","غ","و","ا","ن"], words:["ارغوان"]},
+  {letters:["م","ه","ر","آ","ب","ا","د"], words:["مهرآباد"]},
+  {letters:["ک","ن","ج","و","ا"], words:["کنج"]},
+  {letters:["ح","ا","ج","ی","ج","ا","ن"], words:["حج"]},
+  {letters:["ن","و","ر","و","ز","و","ا"], words:["نوروز"]},
+  {letters:["ع","ی","د","و","ا"], words:["عید"]},
+  {letters:["ق","ر","ب","ا","ن","و","ا"], words:["قربان"]},
+  {letters:["م","ه","ر","گ","ا","ن","و","ا"], words:["مهرگان"]},
+  {letters:["س","م","ن","و","و","ا"], words:["سمنو"]},
+  {letters:["ی","ا","س","و","ا"], words:["یاس"]},
+  {letters:["ل","ا","ل","ه","و","ا"], words:["لاله"]},
+  {letters:["ن","ر","گ","س","و","ا"], words:["نرگس"]},
+  {letters:["س","ب","ز","ه","و","ا"], words:["سبزه"]},
+  {letters:["ش","ی","ر","و","ا"], words:["شیر"]},
+  {letters:["د","خ","ت","ر","و","ا"], words:["دختر"]},
+  {letters:["پ","س","ر","و","ا"], words:["پسر"]},
+  {letters:["ن","و","ه","و","ا"], words:["نوه"]},
+  {letters:["ع","م","ه","و","ا"], words:["عمه"]},
+  {letters:["خ","ا","ل","ه","و","ا"], words:["خاله"]},
+  {letters:["ع","م","و","و","ا"], words:["عمو"]},
+  {letters:["د","ا","ی","ی","و","ا"], words:["دایی"]},
+  {letters:["پ","د","ر","و","ا"], words:["پدر"]},
+  {letters:["م","ا","د","ر","و","ا"], words:["مادر"]},
+  {letters:["ب","ر","ا","د","ر","و","ا"], words:["برادر"]},
+  {letters:["خ","و","ا","ه","ر","و","ا"], words:["خواهر"]},
+  {letters:["ه","ن","ر","و","ا"], words:["هنر"]},
+  {letters:["د","ا","ن","ش","و","ا"], words:["دانش"]},
+  {letters:["ع","ق","ل","و","ا"], words:["عقل"]},
+  {letters:["ف","ک","ر","و","ا"], words:["فکر"]},
+  {letters:["م","ن","ظ","و","ر","ا"], words:["منظور"]},
+  {letters:["ق","ل","م","و","ا"], words:["قلم"]},
+  {letters:["ک","ت","ا","ب","و","ا"], words:["کتاب"]},
+  {letters:["م","د","ر","س","ه","و","ا"], words:["مدرسه"]},
+  {letters:["پ","ا","ی","ی","ز","و"], words:["پاییز"]},
+  {letters:["ب","ه","ا","ر","و","ا"], words:["بهار"]},
+  {letters:["ز","م","س","ت","ا","ن","و"], words:["زمستان"]},
+  {letters:["ت","ا","ب","س","ت","ا","ن","و"], words:["تابستان"]},
+  {letters:["ب","ر","ف","و","ا"], words:["برف"]},
+  {letters:["ب","ا","ر","ا","ن","و","ا"], words:["باران"]},
+  {letters:["ر","و","د","و","ا"], words:["رود"]},
+  {letters:["ج","ن","گ","ل","و","ا"], words:["جنگل"]},
+  {letters:["ب","ا","غ","و","ا"], words:["باغ"]},
+  {letters:["ک","و","ه","و","ا"], words:["کوه"]},
+  {letters:["د","ر","ی","ا","و","ا"], words:["دریا"]},
+  {letters:["ز","م","ی","ن","و","ا"], words:["زمین"]},
+  {letters:["آ","س","م","ا","ن","و","ا"], words:["آسمان"]},
+  {letters:["م","ن","د","د","و","ا"], words:["مداد"]},
+  {letters:["ت","ا","ر","ی","ک","و","ا"], words:["تاریک"]},
+  {letters:["ن","و","ر","و","ا"], words:["نور"]},
+  {letters:["ش","ا","د","م","ن","د","و"], words:["شادمان"]},
+  {letters:["غ","م","و","ا"], words:["غم"]},
+  {letters:["ف","ر","ح","و","ا"], words:["حر"]},
+  {letters:["خ","و","ش","ش","ر"], words:["خروش"]},
+  {letters:["خ","و","ش","و","ا"], words:["کوشش"]},
+  {letters:["ن","س","ت","ع","ل","ی","ق"], words:["نستعلیق"]},
+  {letters:["ن","گ","ا","ر","و","ا"], words:["نگار"]},
+  {letters:["ن","ق","ش","و","ا"], words:["نقش"]},
+  {letters:["ط","ل","ع","ی","و","ا"], words:["طلایی"]},
+  {letters:["ق","ر","م","ز","و","ا"], words:["قرمز"]},
+  {letters:["س","ب","ز","و","ا"], words:["سبز"]},
+  {letters:["ب","ن","ف","ش","و","ا"], words:["بنفش"]},
+  {letters:["ن","ا","ز","و","ب"], words:["ناز"]},
+  {letters:["ز","ی","ب","ا","و","ن"], words:["زیبا"]},
+  {letters:["ن","ر","م","ب","ا"], words:["نرم"]},
+  {letters:["م","ح","ب","ت","و","ا"], words:["محبت"]},
+  {letters:["ق","د","ر","د","ا","ن","و"], words:["قدردان"]},
+  {letters:["س","پ","ا","س","ش","ب"], words:["سپاس"]},
+  {letters:["م","ه","ر","ب","ا","ن","و"], words:["ابان"]},
+  {letters:["خ","و","ش","ب","خ","ت","پ"], words:["خوشبخت"]},
+  {letters:["د","و","س","ت","ش","ا"], words:["دوست"]},
+  {letters:["ر","ف","ق","غ","ا"], words:["رفقا"]},
+  {letters:["پ","ر","و","ا","ی"], words:["پروا"]},
+  {letters:["آ","ر","م","ا","ن","ب"], words:["آرمان"]},
+  {letters:["ش","ا","د","ی","و","ه"], words:["شادی"]},
+  {letters:["ا","م","ی","د","ه","و"], words:["امید"]},
+  {letters:["ع","ش","ق","ص","ا"], words:["عشق"]},
+  {letters:["م","و","ج","و","د","ب"], words:["موجود"]},
+  {letters:["غ","ر","ی","ب","ه","ا"], words:["غرب"]},
+  {letters:["ف","ا","ز","ل","و","ن"], words:["فضل"]},
+  {letters:["ن","و","ر","ن","ژ","ا"], words:["نور"]},
+  {letters:["د","ر","ی","ن","ا","و"], words:["درینا"]},
+  {letters:["ک","و","ر","ش","د","و"], words:["کوروش"]},
+  {letters:["س","ا","د","ه","م","و"], words:["ساده"]},
+  {letters:["ر","ا","م","ی","ن","و"], words:["رامین"]},
+  {letters:["ش","ا","ذ","ر","و","ن"], words:["شاذر"]},
+  {letters:["ن","و","ر","و","ز","ا"], words:["نوروز"]},
+  {letters:["ف","ر","و","غ","ن","ا"], words:["فرهنگ"]},
+  {letters:["م","ا","ه","ر","ب","و"], words:["ماه"]},
+  {letters:["ب","و","ف","ی","ل","ا"], words:["بو"]},
+  {letters:["ف","ر","ش","ت","غ","ا"], words:["فرح"]},
+  {letters:["م","ن","و","چ","ه","ا"], words:["منو"]},
+  {letters:["ت","ه","ر","ا","ن","و"], words:["تهران"]},
+  {letters:["ا","ر","ب","ا","ب","و"], words:["رب"]},
+  {letters:["د","و","س","ت","ن","ا"], words:["دوست"]},
+  {letters:["س","ی","م","ا","ن","و"], words:["سیما"]},
+  {letters:["ک","ی","ه","ا","ن","و"], words:["کیهان"]},
+  {letters:["ن","و","ر","د","ی","ا"], words:["نور"]},
+  {letters:["پ","ر","و","ا","ن","و"], words:["پر"]},
+  {letters:["ر","و","ز","ب","ه","ا"], words:["روز"]},
+  {letters:["ش","ا","م","ل","ه","و"], words:["شامل"]},
+  {letters:["د","ر","و","غ","ش","ا"], words:["درشت"]},
+  {letters:["ب","ر","ن","ا","م","و"], words:["برنامه"]},
+  {letters:["س","و","ت","ا","ر","ه","ن"], words:["ستاره"]},
+  {letters:["م","ه","ر","ی","ن","ا"], words:["مهر"]},
+  {letters:["ش","ه","ر","ب","ا","ن","ی"], words:["شهریار"]},
+  {letters:["س","ل","ط","ن","ا","ب"], words:["سلطان"]},
+  {letters:["ب","ه","ر","ا","م","ن","و"], words:["بهرام"]},
+  {letters:["ج","و","ا","د","ن","ا"], words:["جواد"]},
+  {letters:["ر","ز","ی","ن","ا","و"], words:["زین"]},
+  {letters:["س","و","د","ا","ن","و"], words:["وان"]},
+  {letters:["م","ه","د","ی","س","ا"], words:["مهدی"]},
+  {letters:["ن","و","ش","د","ر","ا"], words:["شور"]},
+  {letters:["ا","ر","م","غ","ن","ا"], words:["ارمغان"]},
+  {letters:["د","ر","ی","ا","ف","ن"], words:["دریا"]},
+  {letters:["ب","ه","ن","ر","و","ا"], words:["بهنر"]},
+  {letters:["ش","ا","ه","د","ر","و"], words:["شاهد"]},
+  {letters:["س","م","ی","ر","ا","ن"], words:["سمیرا"]},
+  {letters:["ن","و","ر","د","ی","س"], words:["دین"]}
+];
+
+// رنگ‌های تم هر 10 مرحله
+const themes = [
+  {bg: "linear-gradient(135deg, #b8860b, #ffd700)", color: "#ffd700", text: "#222", letterBg: "#222"},
+  {bg: "linear-gradient(135deg, #118AB2, #06D6A0)", color: "#06D6A0", text: "#fff", letterBg: "#055a4a"},
+  {bg: "linear-gradient(135deg, #EF476F, #FFD166)", color: "#FFD166", text: "#fff", letterBg: "#7d253a"},
+  {bg: "linear-gradient(135deg, #8B0000, #FFA500)", color: "#FFA500", text: "#fff", letterBg: "#4a0000"},
+  {bg: "linear-gradient(135deg, #4A4A8A, #9D4EDD)", color: "#9D4EDD", text: "#fff", letterBg: "#2a2a5a"},
+  {bg: "linear-gradient(135deg, #003B46, #07575B)", color: "#66A5AD", text: "#fff", letterBg: "#00252e"},
+  {bg: "linear-gradient(135deg, #E63946, #F1FAEE)", color: "#A8DADC", text: "#1D3557", letterBg: "#1D3557"},
+  {bg: "linear-gradient(135deg, #5E548E, #E0B1CB)", color: "#D90429", text: "#F1E0D6", letterBg: "#3F2E5E"},
+  {bg: "linear-gradient(135deg, #2B2D42, #8D99AE)", color: "#EDF2F4", text: "#2B2D42", letterBg: "#1A1C28"},
+  {bg: "linear-gradient(135deg, #F28482, #91C36C)", color: "#F6F5AE", text: "#2B2D42", letterBg: "#5E2C2C"},
+  {bg: "linear-gradient(135deg, #2A0944, #3FA796)", color: "#FEC260", text: "#FEC260", letterBg: "#1A052A"},
+  {bg: "linear-gradient(135deg, #F4D35E, #C1292E)", color: "#2A2D43", text: "#F4D35E", letterBg: "#7A1E1E"},
+  {bg: "linear-gradient(135deg, #3D5A80, #98C1D9)", color: "#E0FBFC", text: "#293241", letterBg: "#1E2B3A"},
+  {bg: "linear-gradient(135deg, #FF512F, #F09819)", color: "#FFFFFF", text: "#FF512F", letterBg: "#9F321F"},
+  {bg: "linear-gradient(135deg, #3A1C71, #D76D77)", color: "#FFAF7B", text: "#3A1C71", letterBg: "#251247"}
+];
+
+let stageIndex = parseInt(localStorage.getItem("dj_stage")) || 0;
+let coins = parseInt(localStorage.getItem("dj_coins")) || 0;
+let selected = [], last = null, isDown = false;
+const savedName = localStorage.getItem("dj_player");
+
+const entry = document.getElementById("entry-screen");
+const login = document.getElementById("login-screen");
+const game = document.getElementById("game-screen");
+const player = document.getElementById("player");
+const coinCount = document.getElementById("coin-count");
+const title = document.getElementById("stage-title");
+const boxes = document.getElementById("word-boxes");
+const container = document.getElementById("letters-container");
+const lines = document.getElementById("lines");
+const word = document.getElementById("selected-word");
+const panel = document.getElementById("hint-panel");
+const thanks = document.getElementById("thank-you");
+
+function show(screen) {
+  entry.style.display = "none";
+  login.style.display = "none";
+  game.style.display = "none";
+  if (screen === "entry") entry.style.display = "block";
+  if (screen === "login") login.style.display = "flex";
+  if (screen === "game") game.style.display = "flex";
+}
+
+function applyTheme() {
+  const themeGroup = Math.floor(stageIndex / 10) % themes.length;
+  const theme = themes[themeGroup];
+  game.style.background = theme.bg;
+  title.style.color = theme.color;
+  title.style.textShadow = "0 2px 4px rgba(0,0,0,0.3)";
+  word.style.color = theme.color;
+  word.style.textShadow = "0 1px 2px rgba(0,0,0,0.3)";
+  
+  const letters = container.querySelectorAll('.letter');
+  letters.forEach(l => {
+    l.style.background = theme.letterBg;
+    l.style.color = theme.color;
+    l.style.border = `3px solid ${theme.color}`;
+  });
+  
+  const charBoxes = document.querySelectorAll('.char-box');
+  charBoxes.forEach(b => {
+    b.style.color = theme.color;
+    b.style.border = `2px solid ${theme.color}`;
+  });
+  
+  const filled = document.querySelectorAll('.filled');
+  filled.forEach(f => {
+    f.style.background = theme.color;
+    f.style.color = theme.text;
+  });
+}
+
+document.getElementById('start-main').onclick = () => {
+  if (savedName) {
+    show("game");
+    coinCount.textContent = coins;
+    loadStage();
+  } else {
+    show("login");
+  }
+};
+
+document.getElementById('back-to-entry').onclick = () => show("entry");
+document.getElementById('start-game').onclick = () => {
+  if (!player.value.trim()) { alert("اسمتو وارد کن!"); return; }
+  localStorage.setItem("dj_player", player.value.trim());
+  show("game");
+  coinCount.textContent = coins;
+  loadStage();
+};
+
+document.getElementById('logout-btn').onclick = () => {
+  if (confirm("حساب پاک بشه؟")) {
+    localStorage.clear();
+    location.reload();
+  }
+};
+
+document.getElementById('dai-help').onclick = () => {
+  panel.style.display = panel.style.display === "flex" ? "none" : "flex";
+};
+
+document.getElementById('hint-letter').onclick = () => {
+  if (coins < 5) { alert("سکه کافی نیست!"); return; }
+  const w = stages[stageIndex].words[0];
+  const empty = [...boxes.children[0].children].find(b => !b.textContent);
+  if (empty) {
+    const i = [...boxes.children[0].children].indexOf(empty);
+    empty.textContent = w[i];
+    empty.classList.add("filled");
+    empty.style.background = "#ffd700";
+    empty.style.color = "#222";
+    coins -= 5;
+    coinCount.textContent = coins;
+    localStorage.setItem("dj_coins", coins);
+  }
+  panel.style.display = "none";
+};
+
+document.getElementById('hint-skip').onclick = () => {
+  if (coins < 15) { alert("سکه کافی نیست!"); return; }
+  coins -= 15;
+  stageIndex++;
+  localStorage.setItem("dj_coins", coins);
+  localStorage.setItem("dj_stage", stageIndex);
+  panel.style.display = "none";
+  loadStage();
+};
+
+function showThanks() {
+  const msgs = ["گل کاشتی! 🌸", "ممنونم عزیزم! 🙏", "خیلی ممنون! 💛"];
+  thanks.textContent = msgs[Math.floor(Math.random() * msgs.length)];
+  thanks.style.display = "flex";
+  setTimeout(() => thanks.style.display = "none", 1500);
+}
+
+function loadStage() {
+  if (stageIndex >= stages.length) {
+    alert("تبریک! 🌟 همه ۱۵۰ مرحله تموم شد!");
+    return;
+  }
+  const st = stages[stageIndex];
+  container.innerHTML = ""; lines.innerHTML = "";
+  selected = []; last = null;
+  title.textContent = "مرحله " + (stageIndex + 1);
+  boxes.innerHTML = ""; word.textContent = "...";
+
+  st.words.forEach(w => {
+    const row = document.createElement("div");
+    row.className = "word-box"; row.dataset.word = w;
+    for (let c of w) {
+      const box = document.createElement("div");
+      box.className = "char-box";
+      row.appendChild(box);
+    }
+    boxes.appendChild(row);
+  });
+
+  const r = 110, cx = 130, cy = 130;
+  const ang = 2 * Math.PI / st.letters.length;
+  st.letters.forEach((ltr, i) => {
+    const div = document.createElement("div");
+    div.className = "letter"; div.textContent = ltr;
+    const a = i * ang - Math.PI / 2;
+    div.style.left = (cx + r * Math.cos(a) - 28) + "px";
+    div.style.top = (cy + r * Math.sin(a) - 28) + "px";
+    container.appendChild(div);
+  });
+
+  applyTheme();
+}
+
+function center(el) {
+  const r = el.getBoundingClientRect();
+  return {x: r.left + r.width/2, y: r.top + r.height/2};
+}
+
+function pick(el) {
+  if (selected.includes(el)) return;
+  el.classList.add("selected");
+  selected.push(el);
+  if (last) {
+    const p1 = center(last), p2 = center(el);
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    line.setAttribute("x1", p1.x); line.setAttribute("y1", p1.y);
+    line.setAttribute("x2", p1.x); line.setAttribute("y2", p1.y);
+    line.setAttribute("stroke", "#ffd700"); line.setAttribute("stroke-width", "2");
+    lines.appendChild(line);
+    requestAnimationFrame(() => {
+      line.setAttribute("x2", p2.x); line.setAttribute("y2", p2.y);
+    });
+  }
+  last = el;
+  word.textContent = selected.map(e => e.textContent).join("");
+}
+
+container.addEventListener("pointerdown", e => {
+  if (e.target.classList.contains("letter")) { isDown = true; pick(e.target); }
+});
+container.addEventListener("pointermove", e => {
+  if (!isDown) return;
+  const el = document.elementFromPoint(e.clientX, e.clientY);
+  if (el && el.classList.contains("letter")) pick(el);
+});
+container.addEventListener("pointerup", () => isDown = false);
+container.addEventListener("pointerleave", () => isDown = false);
+
+document.getElementById('check-btn').onclick = () => {
+  const stage = stages[stageIndex];
+  let matched = null;
+  for (let w of stage.words) {
+    if (w.length !== selected.length) continue;
+    let ok = true;
+    for (let i = 0; i < w.length; i++) {
+      if (w[i] !== selected[i].textContent) { ok = false; break; }
+    }
+    if (ok) { matched = w; break; }
+  }
+
+  if (matched) {
+    const row = [...boxes.children].find(r => r.dataset.word === matched);
+    [...row.children].forEach((c, i) => {
+      c.textContent = matched[i];
+      c.classList.add("filled");
+      c.style.background = "#ffd700";
+      c.style.color = "#222";
+    });
+    const done = [...boxes.children].filter(r => [...r.children].every(c => c.classList.contains("filled"))).length;
+    if (done === stage.words.length) {
+      showThanks();
+      coins += 10;
+      stageIndex++;
+      localStorage.setItem("dj_coins", coins);
+      localStorage.setItem("dj_stage", stageIndex);
+      setTimeout(() => {
+        if (stageIndex < stages.length) loadStage();
+        else alert("تبریک! 🌟 همه ۱۵۰ مرحله تموم شد!");
+      }, 1600);
+    }
+  }
+
+  selected.forEach(a => {
+    a.classList.remove("selected");
+    a.style.background = "#222";
+    a.style.color = "#ffd700";
+  });
+  selected = []; last = null; lines.innerHTML = "";
+  word.textContent = "...";
+};
+
+coinCount.textContent = coins;
+if (savedName && stageIndex < stages.length) {
+  show("game");
+  loadStage();
+} else {
+  show("entry");
+}
+
+document.addEventListener("click", (e) => {
+  if (!panel.contains(e.target) && e.target.id !== "dai-help") {
+    panel.style.display = "none";
+  }
+});
+
+// ایمیل و دعوت
+document.getElementById('item-suggestions').onclick = () => {
+  alert('لطفاً پیشنهادات خود را به این ایمیل ارسال کنید:\n\ndaijavad.game@gmail.com');
+};
+
+document.getElementById('item-invite').onclick = () => {
+  const url = window.location.href;
+  if (navigator.share) {
+    navigator.share({ title: 'دایی جواد', text: 'بیا با هم بازی کنیم! 🌟', url });
+  } else {
+    navigator.clipboard.writeText(url).then(() => {
+      alert('لینک بازی کپی شد! براش بفرست.');
+    }).catch(() => {
+      alert('لینک: ' + url);
+    });
+  }
+};
+</script>
+
+</body>
+</html>
